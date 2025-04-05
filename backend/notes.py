@@ -14,3 +14,5 @@
 # handling form data and file uploads
 
 #FastAPI modules → APIRouter, HTTPException, Depends (for creating routes and handling errors).
+
+#what does JWT do ??-> it gives token as user id which can connect betweeen both backend and frontend
