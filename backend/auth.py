@@ -7,10 +7,13 @@ from passlib.context import CryptContext #for secure pass hashing
 from datetime import datetime,timedelta # for JWT token expire timelines
 from jose import JWTError,jwt # to generate and verify jwt tokens
 from database import user_collection
+import os
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALGORITHM = os.getenv("ALGORITHM")
+ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
 
-SECRET_KEY = "hellokitty"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+
+
 
 pwd_context = CryptContext(schemes=["bcrypt"] ,deprecated="auto")
 # bycript pass to hash passwords before storing them so that it is safe
@@ -65,7 +68,24 @@ async def sigup(user: UserCreate):
     if existing_user:
         raise HTTPException(status_code=400,detail="Email already registered")
     hashed_password = hashpass(user.password)
-    user_data = {"name": user.name,"email": user.email,"password": hashed_password}
+    user_data = {
+        "name": user.name,
+        "email": user.email,
+        "password": hashed_password,
+        "created_at": datetime.utcnow(),
+        "updated_at": datetime.utcnow(),
+        "bio": "",
+        "skills": [],
+        "college": "",
+        "experience": "",
+        "social": {
+        "github": "",
+        "leetcode": "",
+        "linkedin": "",
+        "twitter": ""
+        },
+        "profile_picture": ""
+    }
     result = await user_collection.insert_one(user_data)
     return {"message": "User registered","user_id": str(result.inserted_id)}
 #checks if email is registered and if not hashes the password of the new user and adds the user 

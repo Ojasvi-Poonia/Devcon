@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from auth import router as auth_router
+from user import router as user_router
 
 app = FastAPI() #this will be used to define routes and handle requests
 app.include_router(auth_router,prefix="/auth",tags=["Auth"])
+app.include_router(user_router,prefix="/user",tags=["User"])
 
 @app.get("/")
 def home():
