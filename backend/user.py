@@ -4,6 +4,7 @@ from typing import List, Optional
 from bson import ObjectId
 from database import user_collection
 from auth import get_current_user
+from datetime import datetime
 from fastapi.encoders import jsonable_encoder
 
 router = APIRouter()
@@ -64,7 +65,7 @@ async def get_all_users():
             "social": user.get("social"),
             "profile_picture": user.get("profile_picture")
         }
-        user.append(user_data)
+        users.append(user_data)
     return users
 @router.get("/{user_id}")
 async def get_user_by_id(user_id: str):

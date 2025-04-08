@@ -1,5 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 import os # we import os to get the environmental variables from the local syste
+from dotenv import load_dotenv
+load_dotenv() 
 
  #this is a database connection string to connect to mongo db locally
 MONGO_URI = os.getenv("MONGO_URI")

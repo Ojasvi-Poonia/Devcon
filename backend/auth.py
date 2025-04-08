@@ -8,9 +8,11 @@ from datetime import datetime,timedelta # for JWT token expire timelines
 from jose import JWTError,jwt # to generate and verify jwt tokens
 from database import user_collection
 import os
+from dotenv import load_dotenv
+load_dotenv() 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
-ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 
 
@@ -86,6 +88,7 @@ async def sigup(user: UserCreate):
         },
         "profile_picture": ""
     }
+    # user_data = {"name": user.name,"email": user.email,"password": hashed_password}
     result = await user_collection.insert_one(user_data)
     return {"message": "User registered","user_id": str(result.inserted_id)}
 #checks if email is registered and if not hashes the password of the new user and adds the user 
@@ -95,7 +98,7 @@ async def login(user: UserLogin):
     db_user = await user_collection.find_one({"email": user.email})
     if not db_user or not verify_password(user.password,db_user["password"]):
         raise HTTPException(status_code=400,detail="Invalid email or password")
-    token = create_access_token({"sub":db_user["email"]}, timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    token = create_access_token({"sub":db_user["email"]}, timedelta(minutes=int(ACCESS_TOKEN_EXPIRE_MINUTES)))
     return {"access_token": token, "token_type": "bearer"}
 # "Bearer" means "I am giving you the token to prove who I am".
 # It’s a standard way to send JWT tokens in HTTP headers.
