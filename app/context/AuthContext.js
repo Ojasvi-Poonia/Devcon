@@ -3,3 +3,4 @@ import { useRouter } from "next/router";
 import { authAPI } from "../services/api";
 
 const AuthContext = createContext();
+const ljsd = hey;
