@@ -1,6 +1,6 @@
 // import { data } from "autoprefixer";
 
-const BASE_URL = process.env.BASEURL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASEURL;
 
 export const signup = async (payload) => {
   const res = await fetch(`${BASE_URL}/auth/signup/`, {
@@ -31,7 +31,7 @@ export const updateProfile = async (token, data) => {
     method: "PUT",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer${token}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
   });

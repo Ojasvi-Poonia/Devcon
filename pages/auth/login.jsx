@@ -1,7 +1,7 @@
 import { use, useState } from "react";
 import { useRouter } from "next/router";
 import { login } from "../../utils/api";
-import "@/app/styles/signup.css"
+import styles from "@/styles/signup.module.css"
 
 export default function Login(){
     const router = useRouter()
@@ -22,8 +22,8 @@ export default function Login(){
         }
     }
     return(
-        <div className="signup-wrapper">
-        <form onSubmit={handleSubmit} className="signup-form">
+        <div className={styles.signupWrapper}>
+        <form onSubmit={handleSubmit} className={styles.signupForm}>
           <h2>Login</h2>
           <input
             name="email"
@@ -40,7 +40,7 @@ export default function Login(){
             required
           />
           <button type="submit">Login</button>
-          {error && <p className="error">{error}</p>}
+          {error && <p className={styles.error}>{error}</p>}
         </form>
       </div>
     )

@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import { useRouter } from "next/router";
-import { getMyProfile,updateProfile } from "@/app/utils/api";
-import "@/app/styles/global.css"
+import { getMyProfile,updateProfile } from "@/utils/api";
+import "@/styles/global.css"
 
 export default function Profile() {
     const router = useRouter();
@@ -44,4 +44,40 @@ export default function Profile() {
         const res = await updateProfile(token,updateData)
         setMsg("Profile Updated")
     }
+    if(!user){
+        return <p>Loading Profile.....</p>
+    }
+    return(
+        <div className="signup-wrapper">
+        <form onSubmit={handleUpdate} className="signup-form">
+          <h2>My Profile</h2>
+          <input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            placeholder="Name"
+          />
+          <input
+            name="college"
+            value={form.college}
+            onChange={handleChange}
+            placeholder="College"
+          />
+          <input
+            name="skills"
+            value={form.skills}
+            onChange={handleChange}
+            placeholder="Skills (comma separated)"
+          />
+          <textarea
+            name="bio"
+            value={form.bio}
+            onChange={handleChange}
+            placeholder="Short bio"
+          ></textarea>
+          <button type="submit">Update Profile</button>
+          {msg && <p>{msg}</p>}
+        </form>
+      </div>
+    )
 }
